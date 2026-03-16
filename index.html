@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partial Fraction Trainer | Advanced Math Practice</title>
+    <meta name="description"
+        content="Step-by-step partial fraction trainer for mathematics students. Practice proper and improper fractions with real-time feedback.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="public/images/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- External Libraries (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.11.0/lib/browser/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <aside id="sidebar">
+        <div class="brand">Partial Fractions Trainer</div>
+
+        <div class="control-group">
+            <h2>Current Problem</h2>
+            <div class="problem-container">
+                <div id="math-display"></div>
+            </div>
+            <div
+                style="display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: stretch; justify-content: space-between; margin-top: 1rem;">
+                <button class="btn" style="flex: 1; padding: 0.6rem; min-width: 120px;"
+                    onclick="app.generateProblem()">New Problem</button>
+                <div id="timer-display"
+                    style="flex: 1; min-width: 90px; display: flex; align-items: center; justify-content: center; font-family: monospace; font-size: 1.1rem; font-weight: 600; color: var(--accent-secondary); background: rgba(0,0,0,0.5); padding: 0 0.8rem; border-radius: 0.5rem; border: 1px solid var(--glass-border);">
+                    00:00:00</div>
+                <button class="btn btn-secondary" id="timer-btn" style="flex: 1; min-width: 80px; padding: 0.6rem 1rem;"
+                    onclick="app.toggleTimer()">Start</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h2>Parameters</h2>
+            <label class="option-item">
+                <input type="checkbox" id="opt-improper"> Improper allowed
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="opt-factorised" checked> Factorised denominator
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="opt-linear" checked disabled> Case 1: Linear (ax+b)
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="opt-repeated" checked> Case 2: Repeated (ax+b)^2
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="opt-quadratic" checked> Case 3: Quadratic (x^2+c^2)
+            </label>
+        </div>
+
+        <div style="margin-top: auto;">
+            <p style="font-size: 0.8rem; color: var(--text-dim);">
+                Tip: Use <code>^</code> for powers, <code>/</code> for fractions, and <code>()</code> for grouping.
+            </p>
+            <p
+                style="font-size: 0.7rem; margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; white-space: nowrap; color: var(--text-dim);">
+                <a href="https://sites.google.com/view/math-templates/polynomial-long-div" target="_blank"
+                    style="color: var(--accent); text-decoration: none; font-weight: bold; transition: color 0.2s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--accent)'">Polynomial Long
+                    Division Generator</a>
+                <span style="margin: 0 0.3rem;">|</span>
+                <a href="https://algebraic-gpt4.vercel.app" target="_blank"
+                    style="color: var(--accent); text-decoration: none; font-weight: bold; transition: color 0.2s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--accent)'">Algebraic
+                    GPT4</a>
+            </p>
+        </div>
+    </aside>
+
+    <main id="main-workspace">
+        <div class="workspace-header">
+            <div class="brand">Guided Step-by-Step Solving</div>
+            <p style="color: var(--text-dim);">Break the expression down into its partial fractions. Each step will be
+                verified for mathematical equivalence.</p>
+        </div>
+
+        <div id="steps-container" class="steps-container">
+            <!-- Steps will appear here -->
+        </div>
+
+        <div id="empty-state">
+            Start by clicking "New Problem" or adding your first step...
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button class="btn" onclick="app.addStep()">+ Add Step</button>
+            <button class="btn btn-secondary" onclick="app.clearWorkspace()">Reset Workspace</button>
+        </div>
+    </main>
+
+    <div class="help-panel" id="symbolic-guide">
+        <div class="close-btn" onclick="document.getElementById('symbolic-guide').style.display='none'">✕</div>
+        <strong>Symbolic Guide:</strong><br>
+        • A/(x-1) + B/(x+1)<br>
+        • (Ax+B)/(x^2+4) + C/(x+1)<br>
+        • (x+2)/(x(x-1)^2) = A/x + B/(x-1) + C/(x-1)^2<br>
+        <br>
+        <em>Verification uses random-point evaluation. Constants A, B... are treated as variables until solved.</em>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
